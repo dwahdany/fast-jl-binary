@@ -20,20 +20,10 @@ jobs:
                   username: ${{ github.repository_owner }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Make build script executable
-              run: chmod +x build.sh
-
-            - name: Run build script
-              run: ./build.sh # Calls your Docker build script
-            - name: Tag Docker image
-              run: |
-                  # Tag with the Git SHA
-                  docker tag fast-jl-builder ghcr.io/${{ github.repository_owner }}/fast-jl-builder:${{ github.sha }}
-                  # Also tag it as 'latest'
-                  docker tag fast-jl-builder ghcr.io/${{ github.repository_owner }}/fast-jl-builder:latest
-                  docker images
-
-            - name: Push Docker image
-              run: |
-                  docker push ghcr.io/${{ github.repository_owner }}/fast-jl-builder:${{ github.sha }}
-                  docker push ghcr.io/${{ github.repository_owner }}/fast-jl-builder:latest
+            - name: Build and push
+              uses: docker/build-push-action@v6
+              with:
+                  push: true
+                  tags: |
+                      ghcr.io/${{ github.repository_owner }}/fast-jl-binary:latest
+                      ghcr.io/${{ github.repository_owner }}/fast-jl-binary:${{ github.sha }}
