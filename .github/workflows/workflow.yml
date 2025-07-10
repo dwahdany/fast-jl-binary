@@ -1,0 +1,28 @@
+name: Build and Publish Python Wheel
+
+on:
+    workflow_dispatch:
+    push:
+        tags:
+            - "v*" # Only publish on tags that start with 'v'
+
+jobs:
+    build-and-publish:
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v3
+
+            - name: Build wheel using Docker
+              run: |
+                  ./run.sh
+
+            - name: Copy to dist folder
+              run: |
+                  mkdir dist
+                  cp -r output/fast_jl* dist/
+
+            - name: Publish package distributions to PyPI
+              uses: pypa/gh-action-pypi-publish@release/v1
