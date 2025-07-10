@@ -1,0 +1,42 @@
+name: Build and Publish Docker Image
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-push-docker:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v3
+
+            - name: Log in to GHCR
+              uses: docker/login-action@v2
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.repository_owner }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Make build script executable
+              run: chmod +x build.sh
+              working-directory: fast-jl-binary
+
+            - name: Run build script
+              run: ./build.sh # Calls your Docker build script
+              working-directory: fast-jl-binary
+
+            - name: Tag Docker image
+              run: |
+                  # Tag with the Git SHA
+                  docker tag fast-jl-builder ghcr.io/${{ github.repository_owner }}/fast-jl-builder:${{ github.sha }}
+                  # Also tag it as 'latest'
+                  docker tag fast-jl-builder ghcr.io/${{ github.repository_owner }}/fast-jl-builder:latest
+                  docker images
+
+            - name: Push Docker image
+              run: |
+                  docker push ghcr.io/${{ github.repository_owner }}/fast-jl-builder:${{ github.sha }}
+                  docker push ghcr.io/${{ github.repository_owner }}/fast-jl-builder:latest
