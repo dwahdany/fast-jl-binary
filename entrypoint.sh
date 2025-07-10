@@ -1,5 +1,5 @@
 #!/bin/bash
-python_version="${1:-3.11}"
+python_version="${PYTHON_VERSION:-${1:-3.11}}"
 
 mkdir wheels
 uv init -p "$python_version"
