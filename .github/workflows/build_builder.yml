@@ -22,12 +22,9 @@ jobs:
 
             - name: Make build script executable
               run: chmod +x build.sh
-              working-directory: fast-jl-binary
 
             - name: Run build script
               run: ./build.sh # Calls your Docker build script
-              working-directory: fast-jl-binary
-
             - name: Tag Docker image
               run: |
                   # Tag with the Git SHA
