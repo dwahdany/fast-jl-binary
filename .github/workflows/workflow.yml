@@ -18,11 +18,21 @@ jobs:
             - name: Build wheel using Docker
               run: |
                   ./run.sh
+            - name: Copy to tmp folder
+              run: |
+                  mkdir tmp
+                  cp -r output/fast_jl* tmp/
 
+            - name: Change metadata
+              run: |
+                  uv run wheel unpack tmp/* -d dist
+                  rm tmp/*.whl
+                  find tmp -name METADATA -exec sed -i   -e 's/^Author:.*/Author: Dariush Wahdany/'   -e 's/^Author-email:.*/Author-email: dariushwahdany@gmail.com/'   -e 's/^Name: fast_jl/Name: fast_jl_binary/'   {} \;
+                  uv run wheel pack tmp/* -d dist
             - name: Copy to dist folder
               run: |
                   mkdir dist
-                  cp -r output/fast_jl* dist/
+                  cp -r tmp/*.whl dist/
 
             - name: Publish package distributions to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
