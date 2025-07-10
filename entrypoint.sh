@@ -10,3 +10,7 @@ find tmp -name METADATA -exec sed -i   -e 's/^Author:.*/Author: Dariush Wahdany/
 mkdir dist
 uv run wheel pack tmp/* -d dist
 uv run wheel tags --platform-tag manylinux_2_36_x86_64 dist/*.whl --remove
+for oldpath in dist/fast_jl-*.whl; do
+    newpath="dist/fast_jl_binary-${oldpath#dist/fast_jl-}"
+    mv "$oldpath" "$newpath"
+done
