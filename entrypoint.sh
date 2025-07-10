@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir output
+uv pip install torch
 uv run python -m pip wheel traker[fast] --no-build-isolation -w output
 mkdir tmp
 cp -r output/fast_jl* tmp/
