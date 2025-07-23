@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+from os import environ
+
+environ['TORCH_CUDA_ARCH_LIST']="7.0+PTX"
+
 from setuptools import setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 
