@@ -4,7 +4,7 @@ python_version="${PYTHON_VERSION:-${1:-3.11}}"
 mkdir wheels
 uv init -p "$python_version"
 uv python pin "$python_version"
-uv add torch
+uv add torch "pip<25.3" wheel setuptools
 
 # Copy the source code to build directory
 cp -r /src/fast_jl-0.1.3 ./
