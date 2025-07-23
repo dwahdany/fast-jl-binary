@@ -4,6 +4,7 @@ RUN mkdir /build
 WORKDIR /build
 RUN uv venv
 RUN uv pip install "pip<25.3" wheel
+COPY fast_jl-0.1.3/ /src/fast_jl-0.1.3/
 COPY entrypoint.sh /build/
 RUN chmod +x /build/entrypoint.sh
 ENTRYPOINT [ "/build/entrypoint.sh" ]

@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+from setuptools import setup
+from torch.utils.cpp_extension import BuildExtension, CUDAExtension
+
+long_description = open('README.rst').read()
+
+setup(
+    name='fast_jl_binary',
+    version="0.1.3",
+    description="Fast JL: Compute JL projection fast on a GPU (Binary Distribution)",
+    author="Dariush Wahdany",
+    author_email='dariushwahdany@gmail.com',
+    install_requires=["torch>=2.0.0"],
+    long_description=long_description,
+    ext_modules=[
+        CUDAExtension('fast_jl_binary', [
+            'fast_jl.cu',
+        ]),
+    ],
+    cmdclass={
+        'build_ext': BuildExtension
+    },
+    setup_requires=["torch>=2.0.0"]) 
