@@ -3,7 +3,7 @@
 from os import environ
 
 # environ['TORCH_CUDA_ARCH_LIST']="7.0 7.2 7.5 8.0 8.6 8.7 8.9 9.0 10.0 10.1 10.3 12.0 12.1+PTX"
-environ['TORCH_CUDA_ARCH_LIST']="7.0 7.2 7.5 8.0 8.6 8.7 8.9 9.0 10.0 10.1 12.0 12.1+PTX"
+environ['TORCH_CUDA_ARCH_LIST']="7.0 7.2 7.5 8.0 8.6 8.7 8.9 9.0 10.0 10.1 12.0+PTX"
 
 from setuptools import setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
