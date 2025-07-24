@@ -11,7 +11,7 @@ long_description = open('README.rst').read()
 
 setup(
     name='fast_jl_binary',
-    version="0.1.3.2",
+    version="0.1.3.3",
     description="Fast JL: Compute JL projection fast on a GPU (Binary Distribution)",
     author="Dariush Wahdany",
     author_email='dariushwahdany@gmail.com',
