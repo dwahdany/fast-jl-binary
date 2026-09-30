@@ -1,3 +1,39 @@
+> [!WARNING]
+> **Deprecated — this repo is archived and will not ship new wheels.**
+> You no longer need it: `uv` can build the upstream `fast-jl` sdist directly. See [Workaround](#workaround-install-upstream-fast-jl-with-uv) below.
+
+## Workaround: install upstream `fast-jl` with uv
+
+`fast-jl`'s `setup.py` imports `torch` but declares no build dependencies, so isolated builds fail with `No module named 'torch'`.
+Tell uv to inject your project's own `torch` into the build environment (requires uv >= 0.8.4):
+
+```toml
+[project]
+dependencies = ["torch>=2.0.0", "fast-jl"]
+
+[tool.uv.extra-build-dependencies]
+fast-jl = [{ requirement = "torch", match-runtime = true }]
+
+# fast-jl has no static metadata; match-runtime needs it
+[[tool.uv.dependency-metadata]]
+name = "fast-jl"
+version = "0.1.3"
+requires-dist = ["torch>=2.0.0"]
+```
+
+Then `uv sync`. The build machine needs the CUDA toolkit (`nvcc`, `CUDA_HOME` set).
+
+Without uv's project config (pip / `uv pip`), install torch first and disable build isolation:
+
+```bash
+pip install torch
+pip install fast-jl --no-build-isolation
+```
+
+---
+
+*Original README follows.*
+
 Have you tried installing `fast-jl` but failed?  
 No more! This repo ships binary wheels for your efficient progress.
 ## What is this
