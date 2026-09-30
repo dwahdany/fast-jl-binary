@@ -5,7 +5,7 @@
 ## Workaround: install upstream `fast-jl` with uv
 
 `fast-jl`'s `setup.py` imports `torch` but declares no build dependencies, so isolated builds fail with `No module named 'torch'`.
-Tell uv to inject your project's own `torch` into the build environment (requires uv >= 0.8.4):
+Tell uv to inject your project's own `torch` into the build environment (tested with uv 0.12.0):
 
 ```toml
 [project]
